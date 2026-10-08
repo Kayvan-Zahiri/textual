@@ -56,6 +56,11 @@ class Selection(NamedTuple):
             end_line, end_offset = self.end.transpose
         end_line = min(len(lines), end_line)
 
+        # splitlines() drops the empty row after a trailing newline, so a
+        # selection on that visual row has an index of len(lines).
+        if start_line_index >= len(lines):
+            return ""
+
         if start_line_index == end_line:
             return lines[start_line_index][start_offset:end_offset]
 

@@ -18,6 +18,10 @@ from textual.widgets import Static
         ("Foo", Selection(Offset(1, 0), Offset(2, 0)), "o"),
         ("Foo", Selection(Offset(0, 0), Offset(2, 0)), "Fo"),
         ("Foo", Selection(Offset(0, 0), None), "Foo"),
+        # A trailing newline does not produce a splitlines() entry, so a
+        # selection on that visual row must not index past the text.
+        ("hello\n", Selection(Offset(0, 1), Offset(0, 1)), ""),
+        ("hello", Selection(Offset(0, 1), Offset(4, 1)), ""),
     ],
 )
 def test_extract(text: str, selection: Selection, expected: str) -> None:
